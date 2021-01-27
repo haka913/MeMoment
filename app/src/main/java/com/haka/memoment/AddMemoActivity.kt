@@ -7,6 +7,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import io.realm.Realm
+import kotlinx.android.synthetic.main.memo_recycler_layout.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
 
 class AddMemoActivity : AppCompatActivity() {
 
@@ -46,6 +50,11 @@ class AddMemoActivity : AppCompatActivity() {
             memo.id = nxtId
             memo.text = memoText.text.toString()
             // TODO "나머지 attr 추가하기"
+            // date 추가
+            val now = Calendar.getInstance().time
+            val sdf = SimpleDateFormat("yyyy/MM/dd hh:mm")
+            memo.date = sdf.format(now).toString()
+
             // copy this transaction & commit
             realm.copyToRealmOrUpdate(memo)
             realm.commitTransaction()
