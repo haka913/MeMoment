@@ -12,7 +12,7 @@ open class MemoDB : RealmObject() {
 //    private? lateinit?
 
     var text: String? = null
-    var date: Date? = null
+    var date: String? = null
     var label: String? = null
 //    image object   bitmap?
     var memoImage: ByteArray? = null

@@ -23,12 +23,14 @@ class MemoAdapter(private val context:Context?, private val memoList: RealmResul
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.itemView.memoTextRV.text = memoList[position]!!.text
-        // TODO id, date, image, gps 추가
+        // TODO id, image, gps 추가
+        holder.itemView.textDate.text = memoList[position]!!.date
     }
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView){
         val textMemo = itemView.findViewById<TextView>(R.id.memoTextRV)
-        // TODO id, date, image, gps 추가
+        // TODO id, image, gps 추가
+        val textDate = itemView.findViewById<TextView>(R.id.textDate)
     }
 }
 
