@@ -16,7 +16,9 @@
         android:theme="@style/Theme.MeMoment">
         <activity android:name=".AddMemoActivity"></activity>
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.MeMoment.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
