@@ -1,15 +1,15 @@
 package com.haka.memoment
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.haka.memoment.ui.home.HomeFragment
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.memo_recycler_layout.view.*
 
-class MemoAdapter(private val context:Context?, private val memoList: RealmResults<MemoDB>):RecyclerView.Adapter<MemoAdapter.Holder>() {
+class MemoAdapter(private val context: HomeFragment, private val memoList: RealmResults<MemoDB>):RecyclerView.Adapter<MemoAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.memo_recycler_layout, parent, false)
 
