@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.haka.memoment.ui.home.HomeFragment
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.memo_recycler_layout.*
 import kotlinx.android.synthetic.main.memo_recycler_layout.view.*
 
 class MemoAdapter(private val context: HomeFragment, private val memoList: RealmResults<MemoDB>) :
@@ -26,11 +27,14 @@ class MemoAdapter(private val context: HomeFragment, private val memoList: Realm
         // recyclerview setOnClickListener
         view.setOnClickListener {
             Toast.makeText(view.context, "recycler selected ${view.memoTextRV.text}", Toast.LENGTH_LONG).show()
-//            val intent = Intent(view.context, memoDetailActivity::class.java)
-//            intent.putExtra("text", view.memoTextRV.text)
-//            intent.putExtra("date", view.textDate.text)
-//            view.context.startActivity(intent)
+            val intent = Intent(view.context, MemoDetailActivity::class.java)
+            intent.putExtra("text", view.memoTextRV.text)
+            intent.putExtra("date", view.textDate.text)
+            // TODO: imgae, latitude, longtitude, label, id
+            intent.putExtra("id", view.memoId.text)
+            view.context.startActivity(intent)
         }
+
 //        return RecyclerView.ViewHolder(view)
         return Holder(view)
     }
@@ -43,6 +47,7 @@ class MemoAdapter(private val context: HomeFragment, private val memoList: Realm
         holder.itemView.memoTextRV.text = memoList[position]!!.text
         // TODO id, image, gps 추가
         holder.itemView.textDate.text = memoList[position]!!.date
+        holder.itemView.memoId.text = memoList[position]!!.id.toString()
 
 
     }

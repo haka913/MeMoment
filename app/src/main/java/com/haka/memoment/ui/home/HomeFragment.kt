@@ -17,10 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.haka.memoment.AddMemoActivity
-import com.haka.memoment.MemoAdapter
-import com.haka.memoment.MemoDB
-import com.haka.memoment.R
+import com.haka.memoment.*
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -40,9 +37,9 @@ class HomeFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
 
-
         realm = Realm.getDefaultInstance()
         memoRecyclerview = root.findViewById(R.id.memoRecycler)
+        registerForContextMenu(memoRecyclerview)
 
 
         memoRecyclerview.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -57,6 +54,45 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    // TODO: contextmenu clickListener (realm delete 수행하기)
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId){
+            R.id.ct_edit->{
+                Toast.makeText(context, "recycler selected by context Menu ${memoTextRV.text}", Toast.LENGTH_LONG).show()
+                val intent = Intent(context, MemoDetailActivity::class.java)
+                intent.putExtra("text", memoTextRV.text)
+                intent.putExtra("date", textDate.text)
+                intent.putExtra("id", memoId.text)
+                // TODO: imgae, latitude, longtitude, label
+                context?.startActivity(intent)
+
+            }
+            R.id.ct_delete->{
+
+                Toast.makeText(context, "recycler selected by context Menu deleted", Toast.LENGTH_LONG).show()
+                // delete memo DB from realm
+                deleteMemo(memoId.text.toString().toLong())
+
+                // 추가해야되나?
+//                getAllMemo()
+
+            }
+        }
+        return super.onContextItemSelected(item)
+    }
+
+    private fun deleteMemo(id: Long){
+        realm.beginTransaction()
+        val deleteItem = realm.where<MemoDB>(MemoDB::class.java).equalTo("id", id).findFirst()!!
+
+        deleteItem.deleteFromRealm()
+        realm.commitTransaction()
+
+        memoRecyclerview.adapter!!.notifyDataSetChanged()
+
+        Toast.makeText(context, "deleted memo", Toast.LENGTH_LONG).show()
+
+    }
 
     private fun getAllMemo() {
         memoList = ArrayList()
