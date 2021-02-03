@@ -3,10 +3,7 @@ package com.haka.memoment
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.view.ContextMenu
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -17,8 +14,9 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.memo_recycler_layout.*
 import kotlinx.android.synthetic.main.memo_recycler_layout.view.*
 
-class MemoAdapter(private val context: HomeFragment, private val memoList: RealmResults<MemoDB>) :
+class MemoAdapter(private val context: Context?, private val memoList: RealmResults<MemoDB>) :
     RecyclerView.Adapter<MemoAdapter.Holder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.memo_recycler_layout, parent, false)
@@ -44,16 +42,21 @@ class MemoAdapter(private val context: HomeFragment, private val memoList: Realm
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.itemView.memoTextRV.text = memoList[position]!!.text
-        // TODO id, image, gps 추가
-        holder.itemView.textDate.text = memoList[position]!!.date
-        holder.itemView.memoId.text = memoList[position]!!.id.toString()
-
+//        holder.itemView.memoTextRV.text = memoList[position]!!.text
+//        // TODO id, image, gps 추가
+//        holder.itemView.textDate.text = memoList[position]!!.date
+//        holder.itemView.memoId.text = memoList[position]!!.id.toString()
+//        positionV = holder.adapterPosition
+        val mMemo=memoList.get(position)
+        holder.setMemo(mMemo)
 
     }
 
+
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnCreateContextMenuListener {
+        var mMemo:MemoDB?= null
+        var positionv:Int? = null
         init {
             // TODO: 길게 눌렀을 때 메뉴창 바꾸기
             itemView.setOnCreateContextMenuListener(this)
@@ -64,6 +67,15 @@ class MemoAdapter(private val context: HomeFragment, private val memoList: Realm
 
         // TODO id, image, gps 추가
         val textDate = itemView.findViewById<TextView>(R.id.textDate)
+        val textId = itemView.findViewById<TextView>(R.id.memoId)
+        fun setMemo(memo:MemoDB?){
+            itemView.memoId.text = "${memo?.id}"
+            itemView.memoTextRV.text = "${memo?.text}"
+            itemView.textDate.text = "${memo?.date}"
+
+            this.mMemo = mMemo
+        }
+
 
         override fun onCreateContextMenu(
             menu: ContextMenu?,
@@ -72,6 +84,7 @@ class MemoAdapter(private val context: HomeFragment, private val memoList: Realm
         ) {
             menu?.add(0,R.id.ct_edit, 0,"edit")
             menu?.add(0,R.id.ct_delete, 0,"delete")
+
         }
 
 
