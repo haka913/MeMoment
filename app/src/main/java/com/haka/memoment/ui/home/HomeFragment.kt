@@ -25,10 +25,6 @@ class HomeFragment : Fragment(), ActionMode.Callback {
     //TODO: fragment에 addMemoBtn 추가하기
     private lateinit var memoRecyclerview: RecyclerView
 
-    // TODO delete here
-//    private lateinit var memoList: ArrayList<MemoDB>
-    //TODO : delete this
-//    private lateinit var memoList: MutableList<MemoDB>
     private var realm = Realm.getDefaultInstance()
     private lateinit var adapter: MemoAdapter
 
@@ -44,12 +40,7 @@ class HomeFragment : Fragment(), ActionMode.Callback {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val realmResult:RealmResults<MemoDB> = realm.where<MemoDB>().findAll()
 
-//        realm = Realm.getDefaultInstance()
         memoRecyclerview = view.findViewById(R.id.memoRecycler)
-//        getAllMemo()
-        //get all memo
-        //TODO : delete this
-//        memoList = ArrayList()
 
         val results: RealmResults<MemoDB> = realm.where<MemoDB>(MemoDB::class.java).findAll()
         //sort("date", Sort.DESCENDING)
@@ -86,8 +77,8 @@ class HomeFragment : Fragment(), ActionMode.Callback {
                             actionMode?.finish()
                         }else{
                             if(actionMode==null){
-//                                actionMode = startSupportActionMode(this)
-                                actionMode = this@HomeFragment.activity?.startActionMode(this@HomeFragment)
+//                                actionMode = this@HomeFragment.activity?.startActionMode(this@HomeFragment)
+                                actionMode = activity?.startActionMode(this@HomeFragment)
                             }
                             actionMode?.title="${selectedMemoList.size}"
                         }
@@ -106,35 +97,7 @@ class HomeFragment : Fragment(), ActionMode.Callback {
         realm.close()
     }
 
-
-    // TODO: contextmenu clickListener (realm delete 수행하기)
-//    override fun onContextItemSelected(item: MenuItem): Boolean {
-//        when (item?.itemId) {
-//            R.id.ct_edit -> {
-//                Toast.makeText(
-//                    context,
-//                    "recycler selected by context Menu ${memoTextRV.text}",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//                val intent = Intent(context, MemoDetailActivity::class.java)
-//                intent.putExtra("text", memoTextRV.text)
-//                intent.putExtra("date", textDate.text)
-//                intent.putExtra("id", memoId.text)
-//                // TODO: imgae, latitude, longtitude, label
-//                context?.startActivity(intent)
-//
-//            }
-//            R.id.ct_delete -> {
-//
-//                val deleteID = memoId.text.toString()
-//                deleteMemo(deleteID)
-//                Toast.makeText(context, "deleteId is ${deleteID}", Toast.LENGTH_LONG).show()
-//
-//            }
-//        }
-//        return super.onContextItemSelected(item)
-//    }
-
+//    TODO: delete 에러 고치기
     private fun deleteMemo(selectmemoList: MutableList<MemoDB>) {
         try {
             realm.beginTransaction()
@@ -158,16 +121,6 @@ class HomeFragment : Fragment(), ActionMode.Callback {
 
     }
 
-//    private fun getAllMemo() {
-//        memoList = ArrayList()
-//
-//        val results: RealmResults<MemoDB> = realm.where<MemoDB>(MemoDB::class.java).findAll()
-//        //sort("date", Sort.DESCENDING)
-////        memoList.addAll(results)
-//        memoRecyclerview.adapter = MemoAdapter(this.context, results)
-//        memoRecyclerview.adapter!!.notifyDataSetChanged()
-//
-//    }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         when(item?.itemId){
@@ -191,8 +144,6 @@ class HomeFragment : Fragment(), ActionMode.Callback {
                 builder.setPositiveButton("삭제", listner)
                 builder.setNegativeButton("취소", listner)
                 builder.show()
-//                Toast.makeText(this.context, "selected delete memo", Toast.LENGTH_LONG).show()
-//                deleteMemo(selectedMemoList)
             }
             R.id.AMcopyMemo->{
                 Toast.makeText(this.context, "selected copy memo", Toast.LENGTH_LONG).show()

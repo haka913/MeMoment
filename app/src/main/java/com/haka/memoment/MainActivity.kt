@@ -57,8 +57,6 @@ class MainActivity : AppCompatActivity() {
         addMemo = findViewById(R.id.fbtnAddMemo)
 //        memoRecyclerview = findViewById(R.id.memoRecycler)
 
-//        // setOnclick
-
         addMemo.setOnClickListener {
 
             startActivity(Intent(this, AddMemoActivity::class.java))
@@ -67,12 +65,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-////        return super.onCreateOptionsMenu(menu)
-//        menuInflater.inflate(R.menu.menu, menu)
-//        return true
-//    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
