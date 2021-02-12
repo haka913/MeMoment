@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var memoList: ArrayList<MemoDB>
     private lateinit var realm: Realm
 
+    private var tracker: SelectionTracker<MemoDB>?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,8 +57,6 @@ class MainActivity : AppCompatActivity() {
         addMemo = findViewById(R.id.fbtnAddMemo)
 //        memoRecyclerview = findViewById(R.id.memoRecycler)
 
-//        // setOnclick
-
         addMemo.setOnClickListener {
 
             startActivity(Intent(this, AddMemoActivity::class.java))
@@ -65,12 +65,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-////        return super.onCreateOptionsMenu(menu)
-//        menuInflater.inflate(R.menu.menu, menu)
-//        return true
-//    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
