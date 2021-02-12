@@ -1,53 +1,102 @@
 package com.haka.memoment.ui.home
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.ActionMode
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StableIdKeyProvider
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.haka.memoment.MemoAdapter
-import com.haka.memoment.MemoDB
-import com.haka.memoment.MemoDetailActivity
-import com.haka.memoment.R
+import com.haka.memoment.*
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.memo_recycler_layout.*
 
-class HomeFragment : Fragment() {
-//TODO: fragment에 addMemoBtn 추가하기
+class HomeFragment : Fragment(), ActionMode.Callback {
+    //TODO: fragment에 addMemoBtn 추가하기
     private lateinit var memoRecyclerview: RecyclerView
-    private lateinit var memoList: ArrayList<MemoDB>
-    private lateinit var realm: Realm
+
+    // TODO delete here
+//    private lateinit var memoList: ArrayList<MemoDB>
+    //TODO : delete this
+//    private lateinit var memoList: MutableList<MemoDB>
+    private var realm = Realm.getDefaultInstance()
+    private lateinit var adapter: MemoAdapter
+
+    private var selectedMemoList: MutableList<MemoDB> = mutableListOf()
+    private var tracker: SelectionTracker<MemoDB>? = null
+    private var actionMode: ActionMode? = null
+
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val realmResult:RealmResults<MemoDB> = realm.where<MemoDB>().findAll()
 
-
-        realm = Realm.getDefaultInstance()
+//        realm = Realm.getDefaultInstance()
         memoRecyclerview = view.findViewById(R.id.memoRecycler)
-        getAllMemo()
+//        getAllMemo()
         //get all memo
-        memoList = ArrayList()
+        //TODO : delete this
+//        memoList = ArrayList()
 
         val results: RealmResults<MemoDB> = realm.where<MemoDB>(MemoDB::class.java).findAll()
         //sort("date", Sort.DESCENDING)
-        memoList.addAll(results)
-        memoRecyclerview.adapter = MemoAdapter(this.context, results)
-        memoRecyclerview.adapter!!.notifyDataSetChanged()
 
-        registerForContextMenu(memoRecyclerview)
+        //TODO : delete this
+//        memoList.addAll(results)
+
+        adapter = MemoAdapter(this.context, realmResult)
+        realmResult.addChangeListener { _->
+            adapter.notifyDataSetChanged()
+        }
+        memoRecyclerview.adapter = adapter
+//        memoRecyclerview.adapter = MemoAdapter(this.context, results)
+//        memoRecyclerview.adapter!!.notifyDataSetChanged()
+
         memoRecyclerview.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
 
+        tracker = SelectionTracker.Builder<MemoDB>(
+            "memoSelection",
+            memoRecyclerview,
+            MemoKeyProvider(adapter),
+            MemoDetailLookup(memoRecyclerview),
+            StorageStrategy.createParcelableStorage(MemoDB::class.java)
+        ).withSelectionPredicate(SelectionPredicates.createSelectAnything()).build()
+
+        tracker?.addObserver(
+            object : SelectionTracker.SelectionObserver<MemoDB>(){
+                override fun onSelectionChanged() {
+                    super.onSelectionChanged()
+                    tracker?.let{
+                        selectedMemoList = it.selection.toMutableList()
+                        // TODO: DO WHATEVER YOU NEED WITH THE SELECTED ITEMS HERE
+                        if(selectedMemoList.isEmpty()){
+                            actionMode?.finish()
+                        }else{
+                            if(actionMode==null){
+//                                actionMode = startSupportActionMode(this)
+                                actionMode = this@HomeFragment.activity?.startActionMode(this@HomeFragment)
+                            }
+                            actionMode?.title="${selectedMemoList.size}"
+                        }
+                    }
+                }
+            }
+        )
+
+        adapter.tracker = tracker
 
         return view
     }
@@ -57,56 +106,123 @@ class HomeFragment : Fragment() {
         realm.close()
     }
 
+
     // TODO: contextmenu clickListener (realm delete 수행하기)
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when(item?.itemId){
-            R.id.ct_edit->{
-                Toast.makeText(context, "recycler selected by context Menu ${memoTextRV.text}", Toast.LENGTH_LONG).show()
-                val intent = Intent(context, MemoDetailActivity::class.java)
-                intent.putExtra("text", memoTextRV.text)
-                intent.putExtra("date", textDate.text)
-                intent.putExtra("id", memoId.text)
-                // TODO: imgae, latitude, longtitude, label
-                context?.startActivity(intent)
+//    override fun onContextItemSelected(item: MenuItem): Boolean {
+//        when (item?.itemId) {
+//            R.id.ct_edit -> {
+//                Toast.makeText(
+//                    context,
+//                    "recycler selected by context Menu ${memoTextRV.text}",
+//                    Toast.LENGTH_LONG
+//                ).show()
+//                val intent = Intent(context, MemoDetailActivity::class.java)
+//                intent.putExtra("text", memoTextRV.text)
+//                intent.putExtra("date", textDate.text)
+//                intent.putExtra("id", memoId.text)
+//                // TODO: imgae, latitude, longtitude, label
+//                context?.startActivity(intent)
+//
+//            }
+//            R.id.ct_delete -> {
+//
+//                val deleteID = memoId.text.toString()
+//                deleteMemo(deleteID)
+//                Toast.makeText(context, "deleteId is ${deleteID}", Toast.LENGTH_LONG).show()
+//
+//            }
+//        }
+//        return super.onContextItemSelected(item)
+//    }
 
-            }
-            R.id.ct_delete->{
-
-                val deleteID = this.memoId.text.toString()
-                deleteMemo(deleteID)
-                Toast.makeText(context, "deleteId is ${deleteID}", Toast.LENGTH_LONG).show()
-
-            }
-        }
-        return super.onContextItemSelected(item)
-    }
-
-    private fun deleteMemo(id: String?){
+    private fun deleteMemo(selectmemoList: MutableList<MemoDB>) {
         try {
             realm.beginTransaction()
-            val deleteItem = realm.where<MemoDB>().equalTo("id",id?.toLong()).findFirst()!!
+            for(memo in selectmemoList){
+                val deleteMemo = realm.where<MemoDB>().equalTo("id", memo.id).findFirst()!!
+                deleteMemo?.deleteFromRealm()
+//                selectmemoList.remove(memo)
+//                memoList.remove(memo)
 
-
-            deleteItem.deleteFromRealm()
-
+            }
+//            val deleteItem = realm.where<MemoDB>().equalTo("id", id?.toLong()).findFirst()!!
+//            val deleteItem = realm.where<MemoDB>().equalTo("id",id).findFirst()!!
+//            deleteItem.deleteFromRealm()
             realm.commitTransaction()
+//            adapter.notifyDataSetChanged()
+//            memoRecyclerview.adapter!!.notifyDataSetChanged()
 
-            memoRecyclerview.adapter!!.notifyDataSetChanged()
-
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Toast.makeText(context, "Failed $e", Toast.LENGTH_SHORT).show()
         }
 
     }
 
-    private fun getAllMemo() {
-        memoList = ArrayList()
+//    private fun getAllMemo() {
+//        memoList = ArrayList()
+//
+//        val results: RealmResults<MemoDB> = realm.where<MemoDB>(MemoDB::class.java).findAll()
+//        //sort("date", Sort.DESCENDING)
+////        memoList.addAll(results)
+//        memoRecyclerview.adapter = MemoAdapter(this.context, results)
+//        memoRecyclerview.adapter!!.notifyDataSetChanged()
+//
+//    }
 
-        val results: RealmResults<MemoDB> = realm.where<MemoDB>(MemoDB::class.java).findAll()
-        //sort("date", Sort.DESCENDING)
-//        memoList.addAll(results)
-        memoRecyclerview.adapter = MemoAdapter(this.context, results)
-        memoRecyclerview.adapter!!.notifyDataSetChanged()
+    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.AMdeleteMenu->{
+                var builder = AlertDialog.Builder(this.context)
+                builder.setTitle("Warning")
+                builder.setMessage("정말로 지우시겠습니까?")
 
+                var listner = object: DialogInterface.OnClickListener{
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        when(which){
+                            DialogInterface.BUTTON_POSITIVE->{
+                                deleteMemo(selectedMemoList)
+                            }
+                            DialogInterface.BUTTON_NEGATIVE->{
+
+                            }
+                        }
+                    }
+                }
+                builder.setPositiveButton("삭제", listner)
+                builder.setNegativeButton("취소", listner)
+                builder.show()
+//                Toast.makeText(this.context, "selected delete memo", Toast.LENGTH_LONG).show()
+//                deleteMemo(selectedMemoList)
+            }
+            R.id.AMcopyMemo->{
+                Toast.makeText(this.context, "selected copy memo", Toast.LENGTH_LONG).show()
+            }
+            R.id.AMgotoCalendar->{
+                Toast.makeText(this.context, "selected Calendar memo", Toast.LENGTH_LONG).show()
+            }
+            R.id.AMpinMemo->{
+                Toast.makeText(this.context, "selected pin memo", Toast.LENGTH_LONG).show()
+            }
+        }
+        return true
+    }
+
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        mode?.let{
+            val inflater: MenuInflater = it.menuInflater
+            inflater.inflate(R.menu.main_action_mode, menu)
+            return true
+        }
+        return false
+    }
+
+    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        return true
+    }
+
+    override fun onDestroyActionMode(mode: ActionMode?) {
+        adapter.tracker?.clearSelection()
+        adapter.notifyDataSetChanged()
+        actionMode = null
     }
 }
