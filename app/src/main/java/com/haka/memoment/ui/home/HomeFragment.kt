@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.ActionMode
 import android.widget.Toast
@@ -25,7 +26,8 @@ class HomeFragment : Fragment(), ActionMode.Callback {
     //TODO: fragment에 addMemoBtn 추가하기
     private lateinit var memoRecyclerview: RecyclerView
 
-    private var realm = Realm.getDefaultInstance()
+//    private var realm = Realm.getDefaultInstance()
+    private lateinit var realm: Realm
     private lateinit var adapter: MemoAdapter
 
     private var selectedMemoList: MutableList<MemoDB> = mutableListOf()
@@ -38,23 +40,21 @@ class HomeFragment : Fragment(), ActionMode.Callback {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        realm = Realm.getDefaultInstance()
         val realmResult:RealmResults<MemoDB> = realm.where<MemoDB>().findAll()
-
         memoRecyclerview = view.findViewById(R.id.memoRecycler)
 
-        val results: RealmResults<MemoDB> = realm.where<MemoDB>(MemoDB::class.java).findAll()
+//        val results: RealmResults<MemoDB> = realm.where<MemoDB>(MemoDB::class.java).findAll()
         //sort("date", Sort.DESCENDING)
 
-        //TODO : delete this
-//        memoList.addAll(results)
 
-        adapter = MemoAdapter(this.context, realmResult)
+        adapter = MemoAdapter(this.context)
         realmResult.addChangeListener { _->
             adapter.notifyDataSetChanged()
         }
         memoRecyclerview.adapter = adapter
-//        memoRecyclerview.adapter = MemoAdapter(this.context, results)
-//        memoRecyclerview.adapter!!.notifyDataSetChanged()
+
+        adapter.memoList.addAll(realmResult)
 
         memoRecyclerview.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
 
@@ -102,21 +102,19 @@ class HomeFragment : Fragment(), ActionMode.Callback {
         try {
             realm.beginTransaction()
             for(memo in selectmemoList){
+                Log.d("realm delete", "${memo.id}")
+                // adapter list를 먼저 지우고 알린후 realm DB 접근해서 지운다
+                adapter.memoList.remove(memo)
+                adapter.notifyDataSetChanged()
                 val deleteMemo = realm.where<MemoDB>().equalTo("id", memo.id).findFirst()!!
                 deleteMemo?.deleteFromRealm()
-//                selectmemoList.remove(memo)
-//                memoList.remove(memo)
-
             }
-//            val deleteItem = realm.where<MemoDB>().equalTo("id", id?.toLong()).findFirst()!!
-//            val deleteItem = realm.where<MemoDB>().equalTo("id",id).findFirst()!!
-//            deleteItem.deleteFromRealm()
             realm.commitTransaction()
-//            adapter.notifyDataSetChanged()
-//            memoRecyclerview.adapter!!.notifyDataSetChanged()
+
 
         } catch (e: Exception) {
             Toast.makeText(context, "Failed $e", Toast.LENGTH_SHORT).show()
+            Log.d("realm error", "$e")
         }
 
     }
