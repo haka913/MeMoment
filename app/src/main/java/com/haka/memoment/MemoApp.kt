@@ -15,6 +15,9 @@ class MemoApp: Application() {
         val configuration = RealmConfiguration.Builder()
             .name("memos.db")
             .deleteRealmIfMigrationNeeded()
+                // 필요하면 제거
+            .allowQueriesOnUiThread(true)
+            .allowWritesOnUiThread(true)
             .schemaVersion(0)
             .build()
 

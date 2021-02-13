@@ -2,25 +2,22 @@ package com.haka.memoment
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
-import com.haka.memoment.ui.home.HomeFragment
-import io.realm.OrderedRealmCollection
-import io.realm.RealmResults
-import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.memo_recycler_layout.*
 import kotlinx.android.synthetic.main.memo_recycler_layout.view.*
 
 // private val memoList: RealmResults<MemoDB>
-class MemoAdapter(private val context: Context?, private val memoList: OrderedRealmCollection<MemoDB>) :
+//private val memoList: OrderedRealmCollection<MemoDB>
+class MemoAdapter(private val context: Context?) :
     RecyclerView.Adapter<MemoAdapter.Holder>() {
     var tracker: SelectionTracker<MemoDB>?=null
+    var memoList = mutableListOf<MemoDB>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context)

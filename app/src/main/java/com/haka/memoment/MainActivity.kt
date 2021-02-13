@@ -29,9 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private lateinit var addMemo: FloatingActionButton
-//    private lateinit var memoRecyclerview: RecyclerView
     private lateinit var memoList: ArrayList<MemoDB>
-    private lateinit var realm: Realm
 
     private var tracker: SelectionTracker<MemoDB>?=null
 
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         // init view
-        realm = Realm.getDefaultInstance()
+//        realm = Realm.getDefaultInstance()
         addMemo = findViewById(R.id.fbtnAddMemo)
 //        memoRecyclerview = findViewById(R.id.memoRecycler)
 
