@@ -2,11 +2,16 @@ package com.haka.memoment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +46,7 @@ class MemoAdapter(private val context: Context?) :
         }
 
 
+
 //        return RecyclerView.ViewHolder(view)
         return Holder(view)
     }
@@ -54,10 +60,14 @@ class MemoAdapter(private val context: Context?) :
 //        // TODO id, image, gps 추가
 //        holder.itemView.textDate.text = memoList[position]!!.date
 //        holder.itemView.memoId.text = memoList[position]!!.id.toString()
-
         tracker?.let{
             val mMemo = memoList[position]
             holder.setMemo(mMemo)
+        }
+        if(tracker!!.isSelected(memoList[position])){
+            holder.itemView.background = ColorDrawable(Color.parseColor("#431A237E"))
+        }else{
+            holder.itemView.background = ColorDrawable(Color.WHITE)
         }
 
     }
@@ -66,13 +76,11 @@ class MemoAdapter(private val context: Context?) :
     fun getPosition(id: Long) = memoList.indexOfFirst { it.id == id }
 
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var mMemo: MemoDB? = null
-        var positionv: Int? = null
 
         init {
             // TODO: 길게 눌렀을 때 메뉴창 바꾸기(action mode)
-
         }
 
         val textMemo = itemView.findViewById<TextView>(R.id.memoTextRV)
@@ -95,6 +103,7 @@ class MemoAdapter(private val context: Context?) :
 
 
         }
+
 
 
     }
