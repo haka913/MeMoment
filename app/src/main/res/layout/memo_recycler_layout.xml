@@ -16,9 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/item_background"
-        android:clickable="true"
-
-        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground">
 
         <TextView
@@ -53,6 +50,33 @@
             android:textSize="13sp"
             app:layout_constraintBottom_toTopOf="@+id/textDate"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/memoLatitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:text="latitude"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/memoLongitude"
+            app:layout_constraintStart_toEndOf="@+id/memoTextRV"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/memoLongitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="1dp"
+            android:text="longitude"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/memoTextRV"
+            app:layout_constraintTop_toBottomOf="@+id/memoLatitude" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

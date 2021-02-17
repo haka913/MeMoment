@@ -22,12 +22,18 @@ public class MemoDetailActivity extends AppCompatActivity {
 
         String stringText = intent.getStringExtra("text");
         String stringDate = intent.getStringExtra("date");
+        String stringLat = intent.getStringExtra("latitude");
+        String stringLng = intent.getStringExtra("longitude");
 
 
         TextView textView1 = (TextView) findViewById(R.id.text1);
         TextView textView2 = (TextView) findViewById(R.id.text2);
+        TextView txLat = (TextView) findViewById(R.id.txLat);
+        TextView txLng = (TextView) findViewById(R.id.txLng);
         textView1.setText(stringText);
         textView2.setText(stringDate);
+        txLat.setText(stringLat);
+        txLng.setText(stringLng);
 
         //textView1.setText("text");
         //textView2.setText("date");

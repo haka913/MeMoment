@@ -102,7 +102,7 @@ class HomeFragment : Fragment(), ActionMode.Callback {
         try {
             realm.beginTransaction()
             for(memo in selectmemoList){
-                Log.d("realm delete", "${memo.id}")
+                Log.d("realm delete", "${memo.id}, ${memo.latitude}, ${memo.longitude}")
                 // adapter list를 먼저 지우고 알린후 realm DB 접근해서 지운다
                 adapter.memoList.remove(memo)
                 adapter.notifyDataSetChanged()

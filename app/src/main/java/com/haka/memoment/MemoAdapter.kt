@@ -30,7 +30,7 @@ class MemoAdapter(private val context: Context?) :
 
 
         // TODO: 그 메모 들어가서 화면 보여줌(activity)
-        // recyclerview setOnClickListener
+//         recyclerview setOnClickListener
         view.setOnClickListener {
             Toast.makeText(
                 view.context,
@@ -42,6 +42,8 @@ class MemoAdapter(private val context: Context?) :
             intent.putExtra("date", view.textDate.text)
             // TODO: imgae, latitude, longtitude, label, id
             intent.putExtra("id", view.memoId.text)
+            intent.putExtra("latitude", view.memoLatitude.text)
+            intent.putExtra("longitude", view.memoLongitude.text)
             view.context.startActivity(intent)
         }
 
@@ -81,6 +83,21 @@ class MemoAdapter(private val context: Context?) :
 
         init {
             // TODO: 길게 눌렀을 때 메뉴창 바꾸기(action mode)
+//            itemView.setOnClickListener {
+//                Toast.makeText(
+//                    context,
+//                    "recycler selected ${itemView.memoTextRV.text}",
+//                    Toast.LENGTH_LONG
+//                ).show()
+//                val intent = Intent(context, MemoDetailActivity::class.java)
+//                intent.putExtra("text", itemView.memoTextRV.text)
+//                intent.putExtra("date", itemView.textDate.text)
+//                // TODO: imgae, latitude, longtitude, label, id
+//                intent.putExtra("id", itemView.memoId.text)
+//                intent.putExtra("latitude", itemView.memoLatitude.text)
+//                intent.putExtra("longitude", itemView.memoLongitude.text)
+//                itemView.context.startActivity(intent)
+//            }
         }
 
         val textMemo = itemView.findViewById<TextView>(R.id.memoTextRV)
@@ -88,11 +105,14 @@ class MemoAdapter(private val context: Context?) :
         // TODO id, image, gps 추가
         val textDate = itemView.findViewById<TextView>(R.id.textDate)
         val textId = itemView.findViewById<TextView>(R.id.memoId)
+        val textLatitude = itemView.findViewById<TextView>(R.id.memoLatitude)
+        val textLongitude = itemView.findViewById<TextView>(R.id.memoLongitude)
         fun setMemo(memo: MemoDB?) {
             itemView.memoId.text = "${memo?.id}"
             itemView.memoTextRV.text = "${memo?.text}"
             itemView.textDate.text = "${memo?.date}"
-
+            itemView.memoLatitude.text = "${memo?.latitude}"
+            itemView.memoLongitude.text = "${memo?.longitude}"
             this.mMemo = mMemo
         }
 

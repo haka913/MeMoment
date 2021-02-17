@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private val multiplePermissionsCode = 100
     private val requiredPermissions = arrayOf(
+        Manifest.permission.INTERNET,
         Manifest.permission.CAMERA,
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
