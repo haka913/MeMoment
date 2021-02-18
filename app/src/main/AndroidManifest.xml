@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.haka.memoment">
     <!-- network position -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- GPS position -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Camera -->
     <uses-permission android:name="android.permission.CAMERA" />
