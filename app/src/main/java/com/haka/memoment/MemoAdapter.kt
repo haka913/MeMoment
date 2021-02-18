@@ -1,5 +1,6 @@
 package com.haka.memoment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -8,6 +9,7 @@ import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -31,21 +33,21 @@ class MemoAdapter(private val context: Context?) :
 
         // TODO: 그 메모 들어가서 화면 보여줌(activity)
 //         recyclerview setOnClickListener
-        view.setOnClickListener {
-            Toast.makeText(
-                view.context,
-                "recycler selected ${view.memoTextRV.text}",
-                Toast.LENGTH_LONG
-            ).show()
-            val intent = Intent(view.context, MemoDetailActivity::class.java)
-            intent.putExtra("text", view.memoTextRV.text)
-            intent.putExtra("date", view.textDate.text)
-            // TODO: imgae, latitude, longtitude, label, id
-            intent.putExtra("id", view.memoId.text)
-            intent.putExtra("latitude", view.memoLatitude.text)
-            intent.putExtra("longitude", view.memoLongitude.text)
-            view.context.startActivity(intent)
-        }
+//        view.setOnClickListener {
+//            Toast.makeText(
+//                view.context,
+//                "recycler selected ${view.memoTextRV.text}",
+//                Toast.LENGTH_LONG
+//            ).show()
+//            val intent = Intent(view.context, MemoDetailActivity::class.java)
+//            intent.putExtra("text", view.memoTextRV.text)
+//            intent.putExtra("date", view.textDate.text)
+//            // TODO: imgae, latitude, longtitude, label, id
+//            intent.putExtra("id", view.memoId.text)
+//            intent.putExtra("latitude", view.memoLatitude.text)
+//            intent.putExtra("longitude", view.memoLongitude.text)
+//            view.context.startActivity(intent)
+//        }
 
 
 
@@ -83,21 +85,23 @@ class MemoAdapter(private val context: Context?) :
 
         init {
             // TODO: 길게 눌렀을 때 메뉴창 바꾸기(action mode)
-//            itemView.setOnClickListener {
-//                Toast.makeText(
-//                    context,
-//                    "recycler selected ${itemView.memoTextRV.text}",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//                val intent = Intent(context, MemoDetailActivity::class.java)
-//                intent.putExtra("text", itemView.memoTextRV.text)
-//                intent.putExtra("date", itemView.textDate.text)
-//                // TODO: imgae, latitude, longtitude, label, id
-//                intent.putExtra("id", itemView.memoId.text)
-//                intent.putExtra("latitude", itemView.memoLatitude.text)
-//                intent.putExtra("longitude", itemView.memoLongitude.text)
-//                itemView.context.startActivity(intent)
-//            }
+            itemView.setOnClickListener {
+                Toast.makeText(
+                    itemView.context,
+                    "recycler selected ${itemView.memoTextRV.text}",
+                    Toast.LENGTH_LONG
+                ).show()
+                val intent = Intent(itemView.context, MemoDetailActivity::class.java)
+                intent.putExtra("text", itemView.memoTextRV.text)
+                intent.putExtra("date", itemView.textDate.text)
+                // TODO: imgae, latitude, longtitude, label, id
+                intent.putExtra("id", itemView.memoId.text)
+                intent.putExtra("latitude", itemView.memoLatitude.text)
+                intent.putExtra("longitude", itemView.memoLongitude.text)
+                itemView.context.startActivity(intent)
+//                슬라이딩 속도 올리기
+                (itemView.context as Activity).overridePendingTransition(R.anim.sliding_up,R.anim.hold)
+            }
         }
 
         val textMemo = itemView.findViewById<TextView>(R.id.memoTextRV)
