@@ -52,4 +52,14 @@
         app:layout_constraintStart_toEndOf="@+id/txLat"
         app:layout_constraintTop_toBottomOf="@+id/text2" />
 
+    <TextView
+        android:id="@+id/txAddr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txLat" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
