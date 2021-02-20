@@ -63,7 +63,12 @@ public class MemoDetailActivity extends AppCompatActivity {
 
         //textView1.setText("text");
         //textView2.setText("date");
+    }
 
-
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        finish();
+        overridePendingTransition(0,R.anim.sliding_down);
     }
 }

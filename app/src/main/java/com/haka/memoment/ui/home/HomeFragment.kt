@@ -97,7 +97,6 @@ class HomeFragment : Fragment(), ActionMode.Callback {
         realm.close()
     }
 
-//    TODO: delete 에러 고치기
     private fun deleteMemo(selectmemoList: MutableList<MemoDB>) {
         try {
             realm.beginTransaction()
