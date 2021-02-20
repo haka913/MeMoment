@@ -68,12 +68,17 @@ class MemoDetailActivityKt : AppCompatActivity() {
         return true
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item){
-//            R.id.
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when(id){
+            android.R.id.home->{
+                finish()
+                overridePendingTransition(0,R.anim.sliding_down)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onBackPressed() {
 //        super.onBackPressed()
