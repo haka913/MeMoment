@@ -24,8 +24,11 @@ public class MemoDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memo_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         Intent intent = getIntent();
 
@@ -47,9 +50,6 @@ public class MemoDetailActivity extends AppCompatActivity {
 
         TextView textView1 = (TextView) findViewById(R.id.memo_text);
         TextView textView2 = (TextView) findViewById(R.id.date_text);
-
-        TextView textView1 = (TextView) findViewById(R.id.text1);
-        TextView textView2 = (TextView) findViewById(R.id.text2);
         TextView txLat = (TextView) findViewById(R.id.txLat);
         TextView txLng = (TextView) findViewById(R.id.txLng);
         TextView txAddr = (TextView) findViewById(R.id.txAddr);
@@ -77,18 +77,26 @@ public class MemoDetailActivity extends AppCompatActivity {
         //delete button
 
 
-        ImageButton backButton = (ImageButton) findViewById(R.id.back);
-        backButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
-        //textView1.setText("text");
-        //textView2.setText("date");
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail_menu, menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
