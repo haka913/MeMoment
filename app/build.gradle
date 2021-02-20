@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.haka.memoment"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -35,6 +35,9 @@ android {
         jvmTarget = '1.8'
     }
 }
+realm{
+    syncEnabled = true
+}
 
 dependencies {
 
@@ -50,6 +53,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
+    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
 
     // google location lib
     implementation 'com.google.android.gms:play-services-location:17.0.0'

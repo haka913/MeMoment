@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.haka.memoment">
     <!-- network position -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- GPS position -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Camera -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -14,6 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MeMoment">
+        <activity
+            android:name=".MemoDetailActivityKt"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".MemoDetailActivity"
             android:label="@string/title_activity_memo_detail"
