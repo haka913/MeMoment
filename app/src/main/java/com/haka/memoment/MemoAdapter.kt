@@ -91,7 +91,8 @@ class MemoAdapter(private val context: Context?) :
                     "recycler selected ${itemView.memoTextRV.text}",
                     Toast.LENGTH_LONG
                 ).show()
-                val intent = Intent(itemView.context, MemoDetailActivity::class.java)
+//                val intent = Intent(itemView.context, MemoDetailActivity::class.java)
+                val intent = Intent(itemView.context, MemoDetailActivityKt::class.java)
                 intent.putExtra("text", itemView.memoTextRV.text)
                 intent.putExtra("date", itemView.textDate.text)
                 // TODO: imgae, latitude, longtitude, label, id

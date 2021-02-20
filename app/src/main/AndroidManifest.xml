@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MeMoment">
         <activity
+            android:name=".MemoDetailActivityKt"
+            android:theme="@style/Theme.MeMoment.NoActionBar"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
             android:name=".MemoDetailActivity"
             android:label="@string/title_activity_memo_detail"
             android:theme="@style/Theme.MeMoment.NoActionBar" />
