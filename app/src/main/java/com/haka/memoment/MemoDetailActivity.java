@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class MemoDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memo_detail);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.detail_toolbar2);
         setSupportActionBar(mToolbar);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -48,14 +50,19 @@ public class MemoDetailActivity extends AppCompatActivity {
         }
 
 
-        TextView textView1 = (TextView) findViewById(R.id.memo_text);
-        TextView textView2 = (TextView) findViewById(R.id.date_text);
+        TextView textView = (TextView) findViewById(R.id.memo_text);
+        TextView dateView = (TextView) findViewById(R.id.date_text);
+        TextView editView = (TextView) findViewById(R.id.edit_text);
         TextView txLat = (TextView) findViewById(R.id.txLat);
         TextView txLng = (TextView) findViewById(R.id.txLng);
         TextView txAddr = (TextView) findViewById(R.id.txAddr);
+        Button editBtn = (Button) findViewById(R.id.editbutton);
+        Button okBtn = (Button) findViewById(R.id.okButton);
 
-        textView1.setText(stringText);
-        textView2.setText(stringDate);
+
+
+        textView.setText(stringText);
+        dateView.setText(stringDate);
         txLat.setText(stringLat);
         txLng.setText(stringLng);
         String geoToAddr = "";
@@ -68,15 +75,41 @@ public class MemoDetailActivity extends AppCompatActivity {
                 txAddr.setText(geoToAddr);
             }
         }
+        final boolean[] mode = {true};//textView = true, editView = false
+        //처음 detail_view 들어왔을때
+        if(mode[0])
+        {
+            editView.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(stringText);
+        }
+        else
+        {
+            textView.setVisibility(View.INVISIBLE);
+            editView.setVisibility(View.VISIBLE);
+            editView.setText(stringText);
+        }
+        editBtn.setOnClickListener(new Button.OnClickListener(){
+           @Override
+           public void onClick(View view){
+               mode[0] = !mode[0];
+               if(mode[0])
+               {
+                   String temp = editView.getText().toString();
+                   editView.setVisibility(View.INVISIBLE);
+                   textView.setVisibility(View.VISIBLE);
+                   textView.setText(temp);
+               }
+               else
+               {
+                   String temp = (String)textView.getText();
+                   textView.setVisibility(View.INVISIBLE);
+                   editView.setVisibility(View.VISIBLE);
+                   editView.setText(temp);
+               }
 
-
-
-        //edit
-
-
-        //delete button
-
-
+           }
+        });
 
 
     }
@@ -94,6 +127,7 @@ public class MemoDetailActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
+
         }
         return super.onOptionsItemSelected(item);
     }

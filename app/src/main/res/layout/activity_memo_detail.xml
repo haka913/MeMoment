@@ -8,30 +8,29 @@
 
     <TextView
         android:id="@+id/memo_text"
-        android:layout_width="341dp"
-        android:layout_height="473dp"
-        app:layout_constraintBottom_toTopOf="@+id/date_text"
+        android:layout_width="410dp"
+        android:layout_height="426dp"
+        android:text="text"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        android:visibility="visible"/>
+        app:layout_constraintTop_toBottomOf="@+id/detail_toolbar2" />
+
 
     <EditText
         android:id="@+id/edit_text"
-        android:layout_width="341dp"
-        android:layout_height="473dp"
-        app:layout_constraintBottom_toTopOf="@+id/date_text"
+        android:layout_width="410dp"
+        android:layout_height="426dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.503"
-        android:visibility="gone"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/detail_toolbar2" />
 
     <TextView
         android:id="@+id/date_text"
-        android:layout_width="180dp"
-        android:layout_height="40dp"
+        android:layout_width="147dp"
+        android:layout_height="16dp"
         android:layout_marginBottom="16dp"
         android:text="date"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,9 +39,9 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="423dp"
-        android:layout_height="67dp"
+        android:id="@+id/detail_toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/purple_500"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -53,30 +52,58 @@
 
     <TextView
         android:id="@+id/txLat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_width="84dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="492dp"
         android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/txLng"
+        app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text1" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_toolbar2" />
 
     <TextView
         android:id="@+id/txLng"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
+        android:layout_width="84dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="492dp"
+        android:layout_marginEnd="68dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/txLat"
-        tools:layout_editor_absoluteY="184dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_toolbar2" />
 
     <TextView
         android:id="@+id/txAddr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
         android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/date_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txLat" />
+        app:layout_constraintTop_toTopOf="@+id/memo_text"
+        app:layout_constraintVertical_bias="0.924" />
+
+    <Button
+        android:id="@+id/editbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="수정"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/okButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="OK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
